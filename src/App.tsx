@@ -72,7 +72,7 @@ export default class App extends Component<Props, State> {
         return (
             <div style={{height: 'inherit'}}>
                 {this.state.playlist.length > 0 
-                    ? <PlaylistPlayer playlist={this.state.playlist} /> 
+                    ? <PlaylistPlayer playlist={this.state.playlist} loadingText={this.state.LoadingText} /> 
                     : <ConfigForm YoutubeApiKey={AppConfig.apiKey} onSubmit={values => this.onConfigFormSubmit(values)} />}
             </div>
         );
