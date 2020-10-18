@@ -1,6 +1,33 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#  [Try The App Here](https://genide.github.io/youtube-playlist-brb)
 
-#  [Test the website at this Github Page](https://genide.github.io/youtube-playlist-brb)
+## Why I Made This
+In my free time, I like to stream video games on twtich. <br />
+But sometimes I need to step away from the stream for various reasons <br />
+When I do this, I like to leave some clips up for the viewers. <br/>
+But it can get a bit repititive showing the exact same "Be Right Back" video everytime. <br />
+So I decided to change it up by randomizing what clips they see each time I go away. <br />
+
+## How To Use The App
+Go to youtube and find the playlist you want to use as your "Be Right Back" playlist.<br />
+You can find the youtube playlist ID after the "list" query parameter in your URL.<br/>
+
+![Youtube List Id](pictures/YoutubeListId.png)<br />
+
+Click on the link above to take you to the github page. <br />
+It will show a configuration screen that allows you to enter a youtube playlist id. <br />
+Enter the youtube playlist ID into the configuration form and click "Create Link". <br />
+
+![Pop Music 2020](pictures/PopMusic2020.png)<br />
+
+<br />
+A URL with be copied to your clipboard and you'll be sent to the new "Be Right Back" website. <br />
+It will begin playing the videos in the playlist according to the configuration you specified. <br />
+With the link copied, you can then add this webpage to your "Be Right Back" scene in your favorite streaming application. <br />
+
+<br />
+<br />
+
+# Developer Stuff
 
 ## Available Scripts
 
@@ -44,3 +71,5 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
