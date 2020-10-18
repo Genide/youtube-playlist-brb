@@ -16,7 +16,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-        
+
     - run: npm install -g yarn
 
     - run: yarn install
@@ -24,11 +24,11 @@ jobs:
     - run: yarn build
 
     - run: yarn test
+      env:
+        CI: true
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
-        github_token: $({ secrets.GITHUB_TOKEN })
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./build
-      env:
-        CI: true
