@@ -88,7 +88,6 @@ export default class PlaylistPlayer extends Component<Props, State> {
                         opts={YTPlayerOpts}
                         onPlay={() => this.onPlayerStart()}
                         onEnd={() => this.loadNextPlaylistVideo()}
-                        onStateChange={(event) => {console.log(event.data)}}
                     />
                 </div>
                 <TestPattern hidden={!this.state.IsLoadingVideo} text={this.props.loadingText}/>

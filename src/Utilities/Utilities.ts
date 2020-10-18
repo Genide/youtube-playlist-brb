@@ -1,3 +1,5 @@
+import { IPlaylist, IPlaylistListResponse } from "../Interfaces/YTInterfaces";
+
 /**
  * Creates a new array and randomizes the order of the elements
  * @param array Input array
@@ -22,3 +24,19 @@ export function RandomizeOrder<T> (array: T[]): T[] {
     return shuffledArray;
 }
 
+export async function GetPlaylistObject(playlistId: string, YTApiKey: string): Promise<IPlaylist | undefined> {
+  let url = new URL('https://www.googleapis.com/youtube/v3/playlists');
+  url.searchParams.append('part', 'id');
+  url.searchParams.append('id', playlistId);
+  url.searchParams.append('key', YTApiKey);
+  let request = await fetch(url.href, {
+      headers: {
+          "Accept": "application/json"
+      }
+  })
+
+  let json: IPlaylistListResponse = await request.json();
+  let playlist = json.items.find(playlist => playlist.id === playlistId)
+
+  return playlist;
+}

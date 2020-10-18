@@ -85,6 +85,7 @@ export default class ConfigForm extends Component<Props, State> {
                                     error={formik.errors.youtubeListId ? true : false}
                                     helperText={formik.errors.youtubeListId ?? 'Enter a youtube playlist ID'}
                                     fullWidth
+                                    disabled={formik.isSubmitting}
                                 />
                                 <br />
                                 <br />
@@ -98,6 +99,7 @@ export default class ConfigForm extends Component<Props, State> {
                                     error={formik.errors.loadingText ? true : false}
                                     helperText={formik.errors.loadingText ?? 'Displayed while loading the next video in the playlist'}
                                     fullWidth
+                                    disabled={formik.isSubmitting}
                                 />
                                 <br />
                                 <br />
