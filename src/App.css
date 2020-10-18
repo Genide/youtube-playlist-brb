@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+.YTPlayerContainer {
+  width: 100%;
+  height: 100%;
+}
+
+html, body {
+  height: 100%;
+}
+
+th, td {
+  text-align: left;
+}
