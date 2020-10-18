@@ -1,6 +1,7 @@
-#  [Try The App Here](https://genide.github.io/youtube-playlist-brb)
+# [Try The App Here](https://genide.github.io/youtube-playlist-brb)
 
 ## Why I Made This
+
 In my free time, I like to stream video games on twtich. <br />
 But sometimes I need to step away from the stream for various reasons <br />
 When I do this, I like to leave some clips up for the viewers. <br/>
@@ -8,6 +9,7 @@ But it can get a bit repititive showing the exact same "Be Right Back" video eve
 So I decided to change it up by randomizing what clips they see each time I go away. <br />
 
 ## How To Use The App
+
 Go to youtube and find the playlist you want to use as your "Be Right Back" playlist.<br />
 You can find the youtube playlist ID after the "list" query parameter in your URL.<br/>
 
@@ -26,8 +28,6 @@ With the link copied, you can then add this webpage to your "Be Right Back" scen
 
 <br />
 <br />
-
-# Developer Stuff
 
 ## Available Scripts
 
