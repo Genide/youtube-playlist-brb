@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Formik } from 'formik';
-import { IPlaylist, IPlaylistListResponse } from '../Interfaces/YTInterfaces'
-import { Button, TextField } from '@material-ui/core';
+import { IPlaylist } from '../Interfaces/YTInterfaces'
+import { Button, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
 import YoutubePlaylistSnippet from './YoutubePlaylistSnippet';
+import { GetPlaylistObject } from '../Utilities/Utilities';
 
 interface Props {
     YoutubeApiKey: string,
@@ -18,7 +19,9 @@ interface IOnSubmit {
 
 export interface onSubmitParameters {
     youtubeListId: string,
-    loadingText: string
+    loadingText: string,
+    showYTControls: boolean,
+    randomizeOrder: boolean
 }
 
 export default class ConfigForm extends Component<Props, State> {
@@ -29,20 +32,7 @@ export default class ConfigForm extends Component<Props, State> {
     state: State = {}
 
     private async getYTList(YTListId: string): Promise<IPlaylist | undefined> {
-        let url = new URL('https://www.googleapis.com/youtube/v3/playlists');
-        url.searchParams.append('part', 'snippet');
-        url.searchParams.append('id', YTListId);
-        url.searchParams.append('key', this.props.YoutubeApiKey);
-        let request = await fetch(url.href, {
-            headers: {
-                "Accept": "application/json"
-            }
-        })
-
-        let json: IPlaylistListResponse = await request.json();
-        let playlist = json.items.find(playlist => playlist.id === YTListId)
-
-        return playlist;
+        return await GetPlaylistObject(YTListId, this.props.YoutubeApiKey, true);
     }
 
     render() {
@@ -52,6 +42,8 @@ export default class ConfigForm extends Component<Props, State> {
                     initialValues={{
                         youtubeListId: '',
                         loadingText: 'BE RIGHT BACK!',
+                        showYTControls: false,
+                        randomizeOrder: true
                     }}
                     validate={async values => {
                         const errors: any = {};
@@ -89,7 +81,6 @@ export default class ConfigForm extends Component<Props, State> {
                                 />
                                 <br />
                                 <br />
-                                <br />
                                 <TextField
                                     label='Loading Text'
                                     value={formik.values.loadingText}
@@ -103,7 +94,30 @@ export default class ConfigForm extends Component<Props, State> {
                                 />
                                 <br />
                                 <br />
-                                <Button type='submit' disabled={formik.isSubmitting}>
+                                <FormControlLabel 
+                                    label="Show Youtube Controls"
+                                    control={<Checkbox 
+                                        checked={formik.values.showYTControls}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        name="showYTControls"
+                                        disabled={formik.isSubmitting}
+                                    />}
+                                />
+                                <FormControlLabel 
+                                    label="Randomize playlist order"
+                                    control={<Checkbox 
+                                        checked={formik.values.randomizeOrder}
+                                        onChange={formik.handleChange}
+                                        onBlur={formik.handleBlur}
+                                        name="randomizeOrder"
+                                        disabled={formik.isSubmitting}
+                                    />}
+                                />
+                                
+                                <br />
+                                <br />
+                                <Button type='submit' variant='outlined' disabled={formik.isSubmitting}>
                                     Create Link
                                 </Button>
                             </form>

@@ -17,6 +17,8 @@ interface State {
     LoadingText: string;
     playlist: string[];
     playlistId: string;
+    showYTControls: boolean;
+    randomizeOrder: boolean;
 }
 
 export default class App extends Component<Props, State> {
@@ -26,7 +28,9 @@ export default class App extends Component<Props, State> {
         IsLoadingVideo: true,
         LoadingText: '',
         playlist: [],
-        playlistId: ''
+        playlistId: '',
+        showYTControls: false,
+        randomizeOrder: true
     }
     private _playlistRetriever: YTPlaylistRetriever;
 
@@ -41,6 +45,8 @@ export default class App extends Component<Props, State> {
         let url = new URL(window.location.href);
         this.state.playlistId = url.searchParams.get('list') ?? AppConfig.playlistId ?? '';
         this.state.LoadingText = url.searchParams.get('loadingText') ?? AppConfig.loadingText ?? '';
+        this.state.showYTControls = url.searchParams.get('showYTControls') === '1' ? true : false;
+        this.state.randomizeOrder = url.searchParams.get('randomizeOrder') === '1' ? true : false; 
 
         url.search = '';
     }
@@ -60,7 +66,8 @@ export default class App extends Component<Props, State> {
 
         try {
             let temp = await this._playlistRetriever.GetPlaylistVideoIds(this.state.playlistId);
-            this.setState({playlist: RandomizeOrder(temp)});
+            if (this.state.randomizeOrder) temp = RandomizeOrder(temp);
+            this.setState({playlist: temp});
         } catch (error) {
             console.error(error);
         }
@@ -72,6 +79,8 @@ export default class App extends Component<Props, State> {
         url.search = ''; // Get rid of all query parameters
         url.searchParams.append('list', values.youtubeListId);
         url.searchParams.append('loadingText', values.loadingText);
+        url.searchParams.append('showYTControls', values.showYTControls ? '1' : '0');
+        url.searchParams.append('randomizeOrder', values.randomizeOrder ? '1' : '0');
         let newHref = url.href
         navigator.clipboard.writeText(newHref);
         alert(`The link has been copied to your clipboard. Redirecting you to your new page.`);
@@ -82,7 +91,11 @@ export default class App extends Component<Props, State> {
         return (
             <div style={{height: 'inherit'}}>
                 {this.state.playlist.length > 0 
-                    ? <PlaylistPlayer playlist={this.state.playlist} loadingText={this.state.LoadingText} /> : '' }
+                    ? <PlaylistPlayer 
+                        playlist={this.state.playlist} 
+                        loadingText={this.state.LoadingText}
+                        showYTControls={this.state.showYTControls} /> 
+                    : '' }
                 {!this.state.playlistId
                     ? <ConfigForm YoutubeApiKey={AppConfig.apiKey} onSubmit={values => this.onConfigFormSubmit(values)} />
                     : ''}

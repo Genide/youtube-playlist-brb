@@ -24,9 +24,11 @@ export function RandomizeOrder<T> (array: T[]): T[] {
     return shuffledArray;
 }
 
-export async function GetPlaylistObject(playlistId: string, YTApiKey: string): Promise<IPlaylist | undefined> {
+export async function GetPlaylistObject(playlistId: string, YTApiKey: string, includeSnippet: boolean = false): Promise<IPlaylist | undefined> {
   let url = new URL('https://www.googleapis.com/youtube/v3/playlists');
-  url.searchParams.append('part', 'id');
+  let parts = 'id'
+  if (includeSnippet) parts += ',snippet';
+  url.searchParams.append('part', parts);
   url.searchParams.append('id', playlistId);
   url.searchParams.append('key', YTApiKey);
   let request = await fetch(url.href, {

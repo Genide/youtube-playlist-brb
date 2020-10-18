@@ -6,6 +6,7 @@ import TestPattern from './TestPattern'
 interface Props {
     playlist: string[];
     loadingText: string;
+    showYTControls: boolean;
 }
 interface State {
     currentVideoId: string;
@@ -16,7 +17,8 @@ interface State {
 export default class PlaylistPlayer extends Component<Props, State> {
     static defaultProps = {
         playlist: [],
-        loadingText: ''
+        loadingText: '',
+        showYTControls: false
     }
     state: State = {
         currentVideoId: '',
@@ -72,7 +74,7 @@ export default class PlaylistPlayer extends Component<Props, State> {
             width: '100%',
             playerVars: {
                 autoplay: 1,
-                controls: 0, // Hide the player controls
+                controls: this.props.showYTControls ? 1 : 0, // Hide the player controls
                 fs: 0, // Hide the fullscreen button
                 rel: 0, // Disable showing related videos after a video is finished playing
                 modestbranding: 1
