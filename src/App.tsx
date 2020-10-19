@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import './App.css';
 import YTPlaylistRetriever from './Controller/PlaylistRetriever';
-import AppConfig from './AppConfig.json';
 import { GetPlaylistObject, RandomizeOrder } from './Utilities/Utilities';
 import ConfigForm, { onSubmitParameters } from './Components/ConfigForm';
 import PlaylistPlayer from './Components/PlaylistPlayer';
