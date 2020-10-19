@@ -6,6 +6,8 @@ import { GetPlaylistObject, RandomizeOrder } from './Utilities/Utilities';
 import ConfigForm, { onSubmitParameters } from './Components/ConfigForm';
 import PlaylistPlayer from './Components/PlaylistPlayer';
 
+const REACT_APP_YT_API_KEY = process.env.REACT_APP_YT_API_KEY ?? '';
+
 
 interface Props {
     
@@ -36,15 +38,15 @@ export default class App extends Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
-        this._playlistRetriever = new YTPlaylistRetriever(AppConfig.apiKey);
+        this._playlistRetriever = new YTPlaylistRetriever(REACT_APP_YT_API_KEY);
 
         // Use PL4o29bINVT4EG_y-k5jGoOu3-Am8Nvi10 for a super super long list
         // Use PLWXWbr9ex3iVqtmHSJ0OIeEnD2hOZnp2Q for xenoblade chronicles music
         // Use PLxV_ER5SmeVYYSKfzplwqoQzmYWMEidIV for a super short list
         // Use PLaetSIDm3F73cpqVlmsQgrpX3GV_NwU1T for a sample montage list 
         let url = new URL(window.location.href);
-        this.state.playlistId = url.searchParams.get('list') ?? AppConfig.playlistId ?? '';
-        this.state.LoadingText = url.searchParams.get('loadingText') ?? AppConfig.loadingText ?? '';
+        this.state.playlistId = url.searchParams.get('list') ?? '';
+        this.state.LoadingText = url.searchParams.get('loadingText') ?? '';
         this.state.showYTControls = url.searchParams.get('showYTControls') === '1' ? true : false;
         this.state.randomizeOrder = url.searchParams.get('randomizeOrder') === '1' ? true : false; 
 
@@ -58,7 +60,7 @@ export default class App extends Component<Props, State> {
     async onMount() {
         if (!this.state.playlistId) return;
         
-        let playlist = await GetPlaylistObject(this.state.playlistId, AppConfig.apiKey);
+        let playlist = await GetPlaylistObject(this.state.playlistId, REACT_APP_YT_API_KEY);
         if (!playlist) {
             this.setState({playlistId: '', playlist: []});
             return;
@@ -97,7 +99,7 @@ export default class App extends Component<Props, State> {
                         showYTControls={this.state.showYTControls} /> 
                     : '' }
                 {!this.state.playlistId
-                    ? <ConfigForm YoutubeApiKey={AppConfig.apiKey} onSubmit={values => this.onConfigFormSubmit(values)} />
+                    ? <ConfigForm YoutubeApiKey={REACT_APP_YT_API_KEY} onSubmit={values => this.onConfigFormSubmit(values)} />
                     : ''}
             </div>
         );
