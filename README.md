@@ -1,3 +1,5 @@
+[![Actions Status](https://github.com/Genide/youtube-playlist-brb/workflows/Node.js%20CI/badge.svg)](https://github.com/Genide/youtube-playlist-brb/actions)
+
 # [Try The App Here](https://genide.github.io/youtube-playlist-brb)
 
 ## Why I Made This
