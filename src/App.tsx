@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react'
 import './App.css';
-import ConfigForm from './Components/ConfigForm';
+import Config from './Components/Config';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import BRB from './Components/BRB';
 import PageNotFound from './Components/PageNotFound';
@@ -18,7 +18,7 @@ export default function App({ }: Props): ReactElement {
             <Switch>
                 <Route path='/brb' render={(props) => (<BRB YoutubeApiKey={REACT_APP_YT_API_KEY} {...props}/>)} />
                 <Route path='/config'>
-                    <ConfigForm YoutubeApiKey={REACT_APP_YT_API_KEY} />
+                    <Config YoutubeApiKey={REACT_APP_YT_API_KEY} />
                 </Route>
                 <Route path='/' exact>
                     <Redirect to='/config' />

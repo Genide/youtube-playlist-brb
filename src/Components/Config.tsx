@@ -14,7 +14,7 @@ const getYTList = async (YTListId: string, YTApiKey: string): Promise<IPlaylist 
     return await GetPlaylistObject(YTListId, YTApiKey, true);
 }
 
-export default function ConfigForm({YoutubeApiKey}: Props) {
+export default function Config({YoutubeApiKey}: Props) {
     const [currentPlaylist, setcurrentPlaylist] = useState({} as IPlaylist);
     const history = useHistory();
 
