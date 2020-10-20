@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Formik } from 'formik';
 import { IPlaylist } from '../Interfaces/YTInterfaces'
-import { Button, Checkbox, FormControlLabel, TextareaAutosize, TextField } from '@material-ui/core';
+import { Button, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
 import YoutubePlaylistSnippet from './YoutubePlaylistSnippet';
 import { GetPlaylistObject } from '../Utilities/Utilities';
 import { useHistory } from 'react-router-dom';
@@ -114,7 +114,7 @@ export default function ConfigForm({YoutubeApiKey}: Props) {
                             
                             <br />
                             <br />
-                            <Button type='submit' variant='outlined' disabled={formik.isSubmitting}>
+                            <Button type='submit' variant='outlined' disabled={formik.isSubmitting} style={{float: 'right'}}>
                                 Create Link
                             </Button>
                         </form>
