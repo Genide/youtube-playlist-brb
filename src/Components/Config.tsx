@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Formik } from 'formik';
 import { IPlaylist } from '../Interfaces/YTInterfaces'
-import { Button, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
+import { Button, Checkbox, FormControlLabel, TextField, Dialog, DialogTitle, DialogContent } from '@material-ui/core';
 import YoutubePlaylistSnippet from './YoutubePlaylistSnippet';
 import { GetPlaylistObject } from '../Utilities/Utilities';
 import { useHistory } from 'react-router-dom';
@@ -16,7 +16,16 @@ const getYTList = async (YTListId: string, YTApiKey: string): Promise<IPlaylist 
 
 export default function Config({YoutubeApiKey}: Props) {
     const [currentPlaylist, setcurrentPlaylist] = useState({} as IPlaylist);
+    const [isDialogOpen, setisDialogOpen] = useState(false);
+    const [queryString, setqueryString] = useState('');
+
     const history = useHistory();
+
+    let jumpToBrb = () => {
+        if (!queryString) return;
+
+        history.push(`/BRB${queryString}`)
+    }
 
     let center: React.CSSProperties = {
         display: 'flex',
@@ -52,12 +61,16 @@ export default function Config({YoutubeApiKey}: Props) {
                     return errors;
                 }}
                 onSubmit={(values, { setSubmitting }) => {
-                    let queryParams = new URLSearchParams();
-                    queryParams.append('list', values.youtubeListId);
-                    queryParams.append('loadingText', values.loadingText);
-                    queryParams.append('showYTControls', values.showYTControls ? '1' : '0');
-                    queryParams.append('randomizeOrder', values.randomizeOrder ? '1' : '0');
-                    history.push(`/BRB/?${queryParams.toString()}`);
+                    let url = new URL(window.location.origin);
+                    url.pathname = `${process.env.PUBLIC_URL}/BRB`
+                    url.searchParams.append('list', values.youtubeListId);
+                    url.searchParams.append('loadingText', values.loadingText);
+                    url.searchParams.append('showYTControls', values.showYTControls ? '1' : '0');
+                    url.searchParams.append('randomizeOrder', values.randomizeOrder ? '1' : '0');
+
+                    setqueryString(url.search);
+                    navigator.clipboard.writeText(url.href);
+                    setisDialogOpen(true);
                     setSubmitting(false);
                 }}
                 validateOnChange={false}
@@ -117,6 +130,17 @@ export default function Config({YoutubeApiKey}: Props) {
                             <Button type='submit' variant='outlined' disabled={formik.isSubmitting} style={{float: 'right'}}>
                                 Create Link
                             </Button>
+                            <Dialog 
+                                open={isDialogOpen}
+                                onClose={() => setisDialogOpen(false)}
+                            >
+                                <DialogTitle>Link has been created</DialogTitle>
+                                <DialogContent>
+                                    <div>The link has been copied to your clipboard. Click the button below to go to your new BRB page.</div>
+                                    <br/>
+                                    <Button variant='outlined' style={{float: "right"}} onClick={jumpToBrb}>BE RIGHT BACK</Button>
+                                </DialogContent>
+                            </Dialog>
                         </form>
                     )
                 }}
