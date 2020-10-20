@@ -5,6 +5,8 @@ import { Button, Checkbox, FormControlLabel, TextField, Dialog, DialogTitle, Dia
 import YoutubePlaylistSnippet from './YoutubePlaylistSnippet';
 import { GetPlaylistObject } from '../Utilities/Utilities';
 import { useHistory } from 'react-router-dom';
+import CreateIcon from '@material-ui/icons/Create';
+import Done from '@material-ui/icons/CallMade';
 
 interface Props {
     YoutubeApiKey: string,
@@ -46,7 +48,14 @@ export default function Config({YoutubeApiKey}: Props) {
                     <DialogContent>
                         <div>The link has been copied to your clipboard. Click the button below to go to your new BRB page.</div>
                         <br />
-                        <Button variant='outlined' style={{ float: "right" }} onClick={jumpToBrb}>BE RIGHT BACK</Button>
+                        <Button 
+                            variant='outlined' 
+                            style={{ float: "right" }} 
+                            onClick={jumpToBrb}
+                            startIcon={<Done />}
+                        >
+                            JUMP TO BRB
+                        </Button>
                     </DialogContent>
                 </Dialog>
             </div>
@@ -139,20 +148,15 @@ export default function Config({YoutubeApiKey}: Props) {
                             
                             <br />
                             <br />
-                            <Button type='submit' variant='outlined' disabled={formik.isSubmitting} style={{float: 'right'}}>
+                            <Button 
+                                type='submit' 
+                                variant='outlined' 
+                                disabled={formik.isSubmitting} 
+                                style={{float: 'right'}}
+                                startIcon={<CreateIcon />}
+                            >
                                 Create Link
                             </Button>
-                            <Dialog 
-                                open={isDialogOpen}
-                                onClose={() => setisDialogOpen(false)}
-                            >
-                                <DialogTitle>Link has been created</DialogTitle>
-                                <DialogContent>
-                                    <div>The link has been copied to your clipboard. Click the button below to go to your new BRB page.</div>
-                                    <br/>
-                                    <Button variant='outlined' style={{float: "right"}} onClick={jumpToBrb}>BE RIGHT BACK</Button>
-                                </DialogContent>
-                            </Dialog>
                         </form>
                     )
                 }}
