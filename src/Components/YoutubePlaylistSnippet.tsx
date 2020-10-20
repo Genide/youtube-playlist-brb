@@ -2,7 +2,8 @@ import React, { Component, Fragment } from 'react'
 import { IPlaylist } from '../Interfaces/YTInterfaces'
 
 interface Props {
-    playlist?: IPlaylist
+    playlist?: IPlaylist,
+    style?: React.CSSProperties
 }
 interface State {
     
@@ -12,16 +13,16 @@ export default class YoutubePlaylistSnippet extends Component<Props, State> {
     state = {}
 
     render() {
-        if (!this.props.playlist) return <Fragment />;
-        if (!this.props.playlist.snippet) return <Fragment />;
+        if (!this.props.playlist) return <div style={{...this.props.style}}/>;
+        if (!this.props.playlist.snippet) return <div style={{...this.props.style}}/>;
 
         return (
-            <div style={{display: "flex", flexGrow: 1, padding: '1em'}}>
+            <div style={{...this.props.style, display: "flex",}}>
                 <div>
                     <img src={this.props.playlist.snippet.thumbnails.default.url} alt='thumbnail'/>
                 </div>
                 <div style={{paddingLeft: '1em'}}>
-                    <table >
+                    <table>
                         <tbody>
                             <tr>
                                 <th>Playlist Title</th>
@@ -33,7 +34,7 @@ export default class YoutubePlaylistSnippet extends Component<Props, State> {
                             </tr>
                             <tr>
                                 <th>Playlist Description</th>
-                                <td>{this.props.playlist.snippet.description}</td>
+                                <td style={{textOverflow: 'initial'}}>{this.props.playlist.snippet.description}</td>
                             </tr>
                         </tbody>
                     </table>

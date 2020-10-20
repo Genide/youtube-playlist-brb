@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Formik } from 'formik';
 import { IPlaylist } from '../Interfaces/YTInterfaces'
-import { Button, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
+import { Button, Checkbox, FormControlLabel, TextareaAutosize, TextField } from '@material-ui/core';
 import YoutubePlaylistSnippet from './YoutubePlaylistSnippet';
 import { GetPlaylistObject } from '../Utilities/Utilities';
 import { useHistory } from 'react-router-dom';
@@ -18,8 +18,17 @@ export default function ConfigForm({YoutubeApiKey}: Props) {
     const [currentPlaylist, setcurrentPlaylist] = useState({} as IPlaylist);
     const history = useHistory();
 
+    let center: React.CSSProperties = {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100%'
+    }
+
     return (
-        <div style={{ display: "flex", padding: '1em' }}>
+        <div style={{ ...center }}>
+            <div style={{width: '30%'}}></div>
             <Formik
                 initialValues={{
                     youtubeListId: '',
@@ -55,7 +64,7 @@ export default function ConfigForm({YoutubeApiKey}: Props) {
             >
                 {(formik) => {
                     return (
-                        <form onSubmit={formik.handleSubmit} style={{ borderStyle: 'groove', borderWidth: '5px', padding: '1em', width: '25%', minWidth: '500px' }}>
+                        <form onSubmit={formik.handleSubmit} style={{ borderStyle: 'groove', borderWidth: '5px', padding: '1em', width: '30%', minWidth: '450px', margin: 'auto' }}>
                             <TextField
                                 label='Youtube Playlist ID'
                                 value={formik.values.youtubeListId}
@@ -112,7 +121,7 @@ export default function ConfigForm({YoutubeApiKey}: Props) {
                     )
                 }}
             </Formik>
-            <YoutubePlaylistSnippet playlist={currentPlaylist} />
+            <YoutubePlaylistSnippet playlist={currentPlaylist} style={{width: '30%'}} />
         </div>
     )
 }
