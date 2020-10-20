@@ -1,0 +1,3 @@
+https://genide.github.io/youtube-playlist-brb/
+https://genide.github.io/youtube-playlist-brb/?/config
+https://genide.github.io/youtube-playlist-brb/?/BRB/&list=PLaetSIDm3F73cpqVlmsQgrpX3GV_NwU1T~and~loadingText=BE+RIGHT+BACK%21~and~showYTControls=0~and~randomizeOrder=1
