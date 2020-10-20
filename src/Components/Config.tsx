@@ -37,7 +37,19 @@ export default function Config({YoutubeApiKey}: Props) {
 
     return (
         <div style={{ ...center }}>
-            <div style={{width: '30%'}}></div>
+            <div style={{width: '30%'}}>
+                <Dialog
+                    open={isDialogOpen}
+                    onClose={() => setisDialogOpen(false)}
+                >
+                    <DialogTitle>Link has been created</DialogTitle>
+                    <DialogContent>
+                        <div>The link has been copied to your clipboard. Click the button below to go to your new BRB page.</div>
+                        <br />
+                        <Button variant='outlined' style={{ float: "right" }} onClick={jumpToBrb}>BE RIGHT BACK</Button>
+                    </DialogContent>
+                </Dialog>
+            </div>
             <Formik
                 initialValues={{
                     youtubeListId: '',
