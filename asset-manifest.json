@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/youtube-playlist-brb/static/css/main.86bacd6b.chunk.css",
-    "main.js": "/youtube-playlist-brb/static/js/main.35bde56a.chunk.js",
-    "main.js.map": "/youtube-playlist-brb/static/js/main.35bde56a.chunk.js.map",
+    "main.js": "/youtube-playlist-brb/static/js/main.f1945f6e.chunk.js",
+    "main.js.map": "/youtube-playlist-brb/static/js/main.f1945f6e.chunk.js.map",
     "runtime-main.js": "/youtube-playlist-brb/static/js/runtime-main.c69c3799.js",
     "runtime-main.js.map": "/youtube-playlist-brb/static/js/runtime-main.c69c3799.js.map",
-    "static/js/2.09d3e3d5.chunk.js": "/youtube-playlist-brb/static/js/2.09d3e3d5.chunk.js",
-    "static/js/2.09d3e3d5.chunk.js.map": "/youtube-playlist-brb/static/js/2.09d3e3d5.chunk.js.map",
+    "static/js/2.341b33a3.chunk.js": "/youtube-playlist-brb/static/js/2.341b33a3.chunk.js",
+    "static/js/2.341b33a3.chunk.js.map": "/youtube-playlist-brb/static/js/2.341b33a3.chunk.js.map",
     "index.html": "/youtube-playlist-brb/index.html",
-    "precache-manifest.6ba119b5d81917352b1ba4c553ef8f36.js": "/youtube-playlist-brb/precache-manifest.6ba119b5d81917352b1ba4c553ef8f36.js",
+    "precache-manifest.6120bd39a55e3d22cc592587228b74e9.js": "/youtube-playlist-brb/precache-manifest.6120bd39a55e3d22cc592587228b74e9.js",
     "service-worker.js": "/youtube-playlist-brb/service-worker.js",
     "static/css/main.86bacd6b.chunk.css.map": "/youtube-playlist-brb/static/css/main.86bacd6b.chunk.css.map",
-    "static/js/2.09d3e3d5.chunk.js.LICENSE.txt": "/youtube-playlist-brb/static/js/2.09d3e3d5.chunk.js.LICENSE.txt",
+    "static/js/2.341b33a3.chunk.js.LICENSE.txt": "/youtube-playlist-brb/static/js/2.341b33a3.chunk.js.LICENSE.txt",
     "static/media/SMPTE_Color_Bars.svg": "/youtube-playlist-brb/static/media/SMPTE_Color_Bars.bba5813e.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.c69c3799.js",
-    "static/js/2.09d3e3d5.chunk.js",
+    "static/js/2.341b33a3.chunk.js",
     "static/css/main.86bacd6b.chunk.css",
-    "static/js/main.35bde56a.chunk.js"
+    "static/js/main.f1945f6e.chunk.js"
   ]
 }
