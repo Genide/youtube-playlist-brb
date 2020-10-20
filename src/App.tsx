@@ -10,6 +10,7 @@ const REACT_APP_YT_API_KEY = process.env.REACT_APP_YT_API_KEY ?? '';
 interface Props {
 }
 
+// eslint-disable-next-line no-empty-pattern
 export default function App({ }: Props): ReactElement {
     return (
         <BrowserRouter basename={process.env.PUBLIC_URL}>
