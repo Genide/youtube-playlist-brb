@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
+import { RouteComponentProps } from 'react-router-dom'
 import { GetPlaylistObject, RandomizeOrder } from '../Utilities/Utilities';
 import PlaylistRetriever from '../Controller/PlaylistRetriever';
 import PlaylistPlayer from './PlaylistPlayer';
 
-interface Props {
+interface Props extends RouteComponentProps {
     YoutubeApiKey: string;
 }
 interface State {
@@ -43,11 +44,16 @@ export default class BRB extends Component<Props, State> {
 
     async onMount() {
         // Get the playlist
-        if (!this.state.playlistId) return;
+        if (!this.state.playlistId) {
+            alert('Missing playlist ID. \nRedirecting to configuration page.');
+            this.props.history.push('/config');
+            return;
+        }
         
         let playlist = await GetPlaylistObject(this.state.playlistId, this.props.YoutubeApiKey);
         if (!playlist) {
-            this.setState({playlistId: '', playlist: []});
+            alert(`Invalid youtube playlist ID of ${this.state.playlistId}\nRedirecting to configuration page.`)
+            this.props.history.push('/config');
             return;
         }
 

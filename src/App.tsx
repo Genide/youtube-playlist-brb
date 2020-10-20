@@ -15,9 +15,7 @@ export default function App({ }: Props): ReactElement {
     return (
         <BrowserRouter basename={process.env.PUBLIC_URL}>
             <Switch>
-                <Route path='/brb'>
-                    <BRB YoutubeApiKey={REACT_APP_YT_API_KEY} />
-                </Route>
+                <Route path='/brb' render={(props) => (<BRB YoutubeApiKey={REACT_APP_YT_API_KEY} {...props}/>)} />
                 <Route path='/config'>
                     <ConfigForm YoutubeApiKey={REACT_APP_YT_API_KEY} />
                 </Route>
