@@ -69,9 +69,9 @@ export default function Config({YoutubeApiKey}: Props) {
             <Formik
                 initialValues={{
                     youtubeListId: '',
-                    loadingText: 'BE RIGHT BACK!',
+                    loadingText: '',
                     showYTControls: false,
-                    randomizeOrder: true
+                    randomizeOrder: false
                 }}
                 validate={async values => {
                     const errors: any = {};
@@ -107,6 +107,7 @@ export default function Config({YoutubeApiKey}: Props) {
                     return (
                         <form onSubmit={formik.handleSubmit} style={{ borderStyle: 'groove', borderWidth: '5px', padding: '1em', width: '30%', minWidth: '450px', margin: 'auto' }}>
                             <TextField
+                                variant='outlined'
                                 label='Youtube Playlist ID'
                                 value={formik.values.youtubeListId}
                                 onChange={formik.handleChange}
@@ -120,6 +121,7 @@ export default function Config({YoutubeApiKey}: Props) {
                             <br />
                             <br />
                             <TextField
+                                variant='outlined'
                                 label='Loading Text'
                                 value={formik.values.loadingText}
                                 onChange={formik.handleChange}
@@ -132,7 +134,7 @@ export default function Config({YoutubeApiKey}: Props) {
                             />
                             <br />
                             <br />
-                            <FormControlLabel 
+                            <FormControlLabel
                                 label="Show Youtube Controls"
                                 style={{ ...checkboxFormStyle }}
                                 control={<Checkbox 
@@ -144,6 +146,7 @@ export default function Config({YoutubeApiKey}: Props) {
                                     color='primary'
                                 />}
                             />
+                            <br />
                             <FormControlLabel 
                                 label="Randomize playlist order"
                                 style={{ ...checkboxFormStyle }}
