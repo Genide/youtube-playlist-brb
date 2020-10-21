@@ -21,7 +21,6 @@ export default function Config({YoutubeApiKey}: Props) {
     const [isDialogOpen, setisDialogOpen] = useState(false);
     const [queryString, setqueryString] = useState('');
     const theme = useTheme();
-
     const history = useHistory();
 
     let jumpToBrb = () => {
@@ -36,11 +35,11 @@ export default function Config({YoutubeApiKey}: Props) {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100%',
-        backgroundColor: theme.palette.background.default
+        backgroundColor: theme.palette.background.paper
     }
 
     let checkboxFormStyle: React.CSSProperties = {
-        backgroundColor: theme.palette.background.default, 
+        backgroundColor: theme.palette.background.paper, 
         color: theme.palette.text.primary
     }
 
