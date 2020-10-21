@@ -35,11 +35,11 @@ export default function Config({YoutubeApiKey}: Props) {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100%',
-        backgroundColor: theme.palette.background.paper
+        backgroundColor: theme.palette.background.default
     }
 
     let checkboxFormStyle: React.CSSProperties = {
-        backgroundColor: theme.palette.background.paper, 
+        backgroundColor: theme.palette.background.default, 
         color: theme.palette.text.primary
     }
 
@@ -141,6 +141,7 @@ export default function Config({YoutubeApiKey}: Props) {
                                     onBlur={formik.handleBlur}
                                     name="showYTControls"
                                     disabled={formik.isSubmitting}
+                                    color='primary'
                                 />}
                             />
                             <FormControlLabel 
@@ -152,6 +153,7 @@ export default function Config({YoutubeApiKey}: Props) {
                                     onBlur={formik.handleBlur}
                                     name="randomizeOrder"
                                     disabled={formik.isSubmitting}
+                                    color='primary'
                                 />}
                             />
                             
