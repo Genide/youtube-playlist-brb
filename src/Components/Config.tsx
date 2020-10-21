@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Formik } from 'formik';
 import { IPlaylist } from '../Interfaces/YTInterfaces'
-import { Button, Checkbox, FormControlLabel, TextField, Dialog, DialogTitle, DialogContent } from '@material-ui/core';
+import { Button, Checkbox, FormControlLabel, TextField, Dialog, DialogTitle, DialogContent, Box, useTheme } from '@material-ui/core';
 import YoutubePlaylistSnippet from './YoutubePlaylistSnippet';
 import { GetPlaylistObject } from '../Utilities/Utilities';
 import { useHistory } from 'react-router-dom';
@@ -20,6 +20,7 @@ export default function Config({YoutubeApiKey}: Props) {
     const [currentPlaylist, setcurrentPlaylist] = useState({} as IPlaylist);
     const [isDialogOpen, setisDialogOpen] = useState(false);
     const [queryString, setqueryString] = useState('');
+    const theme = useTheme();
 
     const history = useHistory();
 
@@ -34,19 +35,26 @@ export default function Config({YoutubeApiKey}: Props) {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        height: '100%'
+        height: '100%',
+        backgroundColor: theme.palette.background.default
+    }
+
+    let checkboxFormStyle: React.CSSProperties = {
+        backgroundColor: theme.palette.background.default, 
+        color: theme.palette.text.primary
     }
 
     return (
-        <div style={{ ...center }}>
-            <div style={{width: '30%'}}>
+        <Box style={{...center}} >
+                
+            <Box style={{width: '30%'}}>
                 <Dialog
                     open={isDialogOpen}
                     onClose={() => setisDialogOpen(false)}
                 >
                     <DialogTitle>Link has been created</DialogTitle>
                     <DialogContent>
-                        <div>The link has been copied to your clipboard. Click the button below to go to your new BRB page.</div>
+                        <Box>The link has been copied to your clipboard. Click the button below to go to your new BRB page.</Box>
                         <br />
                         <Button 
                             variant='outlined' 
@@ -58,7 +66,7 @@ export default function Config({YoutubeApiKey}: Props) {
                         </Button>
                     </DialogContent>
                 </Dialog>
-            </div>
+            </Box>
             <Formik
                 initialValues={{
                     youtubeListId: '',
@@ -127,6 +135,7 @@ export default function Config({YoutubeApiKey}: Props) {
                             <br />
                             <FormControlLabel 
                                 label="Show Youtube Controls"
+                                style={{ ...checkboxFormStyle }}
                                 control={<Checkbox 
                                     checked={formik.values.showYTControls}
                                     onChange={formik.handleChange}
@@ -137,6 +146,7 @@ export default function Config({YoutubeApiKey}: Props) {
                             />
                             <FormControlLabel 
                                 label="Randomize playlist order"
+                                style={{ ...checkboxFormStyle }}
                                 control={<Checkbox 
                                     checked={formik.values.randomizeOrder}
                                     onChange={formik.handleChange}
@@ -162,7 +172,7 @@ export default function Config({YoutubeApiKey}: Props) {
                 }}
             </Formik>
             <YoutubePlaylistSnippet playlist={currentPlaylist} style={{width: '30%'}} />
-        </div>
+        </Box>
     )
 }
 
