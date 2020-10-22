@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Formik } from 'formik';
 import { IPlaylist } from '../Interfaces/YTInterfaces'
-import { Button, Checkbox, FormControlLabel, TextField, Dialog, DialogTitle, DialogContent, Box, useTheme } from '@material-ui/core';
+import { Button, Checkbox, FormControlLabel, TextField, Dialog, DialogTitle, DialogContent, Box, useTheme, Paper } from '@material-ui/core';
 import YoutubePlaylistSnippet from './YoutubePlaylistSnippet';
 import { GetPlaylistObject } from '../Utilities/Utilities';
 import { useHistory } from 'react-router-dom';
@@ -35,17 +35,18 @@ export default function Config({YoutubeApiKey}: Props) {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100%',
-        backgroundColor: theme.palette.background.default
+        backgroundColor: theme.palette.background.default,
+        paddingLeft: '2em',
+        paddingRight: '2em'
     }
 
     let checkboxFormStyle: React.CSSProperties = {
-        backgroundColor: theme.palette.background.default, 
+        backgroundColor: theme.palette.background.paper, 
         color: theme.palette.text.primary
     }
 
     return (
         <Box style={{...center}} >
-                
             <Box style={{width: '30%'}}>
                 <Dialog
                     open={isDialogOpen}
@@ -77,10 +78,12 @@ export default function Config({YoutubeApiKey}: Props) {
                     const errors: any = {};
                     if (!values.youtubeListId) {
                         errors.youtubeListId = 'Required';
+                        setcurrentPlaylist({} as IPlaylist);
                     } else {
                         let temp = await getYTList(values.youtubeListId, YoutubeApiKey);
                         if (!temp) {
                             errors.youtubeListId = 'Invalid playlist ID'
+                            setcurrentPlaylist({} as IPlaylist);
                         } else {
                             setcurrentPlaylist(temp);
                         }
@@ -105,7 +108,11 @@ export default function Config({YoutubeApiKey}: Props) {
             >
                 {(formik) => {
                     return (
-                        <form onSubmit={formik.handleSubmit} style={{ borderStyle: 'groove', borderWidth: '5px', padding: '1em', width: '30%', minWidth: '450px', margin: 'auto' }}>
+                        <Paper 
+                            elevation={3}
+                            style={{ padding: '1em', width: '30%', minWidth: '450px', margin: 'auto'}}
+                        >
+                        <form onSubmit={formik.handleSubmit} style={{  }}>
                             <TextField
                                 variant='outlined'
                                 label='Youtube Playlist ID'
@@ -117,9 +124,8 @@ export default function Config({YoutubeApiKey}: Props) {
                                 helperText={formik.errors.youtubeListId ?? 'Enter a youtube playlist ID'}
                                 fullWidth
                                 disabled={formik.isSubmitting}
+                                margin='normal'
                             />
-                            <br />
-                            <br />
                             <TextField
                                 variant='outlined'
                                 label='Loading Text'
@@ -131,9 +137,8 @@ export default function Config({YoutubeApiKey}: Props) {
                                 helperText={formik.errors.loadingText ?? 'Displayed while loading the next video in the playlist'}
                                 fullWidth
                                 disabled={formik.isSubmitting}
+                                margin='normal'
                             />
-                            <br />
-                            <br />
                             <FormControlLabel
                                 label="Show Youtube Controls"
                                 style={{ ...checkboxFormStyle }}
@@ -172,10 +177,11 @@ export default function Config({YoutubeApiKey}: Props) {
                                 Create Link
                             </Button>
                         </form>
+                        </Paper>
                     )
                 }}
             </Formik>
-            <YoutubePlaylistSnippet playlist={currentPlaylist} style={{width: '30%'}} />
+            <YoutubePlaylistSnippet playlist={currentPlaylist} style={{width: '30%', padding: '1em'}} />
         </Box>
     )
 }

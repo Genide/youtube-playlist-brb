@@ -1,4 +1,4 @@
-import { Box, useTheme } from '@material-ui/core';
+import { Box, Paper, useTheme } from '@material-ui/core';
 import React from 'react'
 import { IPlaylist } from '../Interfaces/YTInterfaces'
 
@@ -14,7 +14,10 @@ export default function YoutubePlaylistSnippet({playlist, style}: Props) {
     if (!playlist.snippet) return <div style={{...style}}/>;
 
     return (
-        <Box style={{...style, display: "flex", color: theme.palette.text.primary}}>
+        <Paper 
+            style={{...style, display: "flex", color: theme.palette.text.primary}}
+            elevation={3}
+        >
             <Box>
                 <img src={playlist.snippet.thumbnails.default.url} alt='thumbnail'/>
             </Box>
@@ -36,7 +39,7 @@ export default function YoutubePlaylistSnippet({playlist, style}: Props) {
                     </tbody>
                 </table>
             </Box>
-        </Box>
+        </Paper>
     );
 }
 
