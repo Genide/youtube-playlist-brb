@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { Formik } from 'formik';
 import { IPlaylist } from '../Interfaces/YTInterfaces'
-import { Button, Checkbox, FormControlLabel, TextField, Dialog, DialogTitle, DialogContent, Box, useTheme, Paper } from '@material-ui/core';
+import { Button, Checkbox, FormControlLabel, TextField, Box, useTheme, Paper } from '@material-ui/core';
 import YoutubePlaylistSnippet from './YoutubePlaylistSnippet';
 import { GetPlaylistObject } from '../Utilities/Utilities';
 import { useHistory } from 'react-router-dom';
 import CreateIcon from '@material-ui/icons/Create';
-import Done from '@material-ui/icons/CallMade';
+import JumpToBRBDialog from './JumpToBRBDialog';
 
 interface Props {
     YoutubeApiKey: string,
@@ -47,26 +47,12 @@ export default function Config({YoutubeApiKey}: Props) {
 
     return (
         <Box style={{...center}} >
-            <Box style={{width: '30%'}}>
-                <Dialog
-                    open={isDialogOpen}
-                    onClose={() => setisDialogOpen(false)}
-                >
-                    <DialogTitle>Link has been created</DialogTitle>
-                    <DialogContent>
-                        <Box>The link has been copied to your clipboard. Click the button below to go to your new BRB page.</Box>
-                        <br />
-                        <Button 
-                            variant='outlined' 
-                            style={{ float: "right" }} 
-                            onClick={jumpToBrb}
-                            startIcon={<Done />}
-                        >
-                            JUMP TO BRB
-                        </Button>
-                    </DialogContent>
-                </Dialog>
-            </Box>
+            <JumpToBRBDialog 
+                style={{width: '30%'}} 
+                onJumpToBrb={jumpToBrb}
+                open={isDialogOpen}
+                onClose={() => setisDialogOpen(false)}
+            />
             <Formik
                 initialValues={{
                     youtubeListId: '',
