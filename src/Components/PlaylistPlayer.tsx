@@ -7,6 +7,7 @@ interface Props {
     playlist: string[];
     loadingText: string;
     showYTControls: boolean;
+    brbImageLink: string;
 }
 interface State {
     currentVideoId: string;
@@ -18,7 +19,8 @@ export default class PlaylistPlayer extends Component<Props, State> {
     static defaultProps = {
         playlist: [],
         loadingText: '',
-        showYTControls: false
+        showYTControls: false,
+        brbImageLink: ''
     }
     state: State = {
         currentVideoId: '',
@@ -92,7 +94,10 @@ export default class PlaylistPlayer extends Component<Props, State> {
                         onEnd={() => this.loadNextPlaylistVideo()}
                     />
                 </div>
-                <TestPattern hidden={!this.state.IsLoadingVideo} text={this.props.loadingText}/>
+                <TestPattern 
+                    hidden={!this.state.IsLoadingVideo} 
+                    text={this.props.loadingText}
+                    brbImageLink={this.props.brbImageLink}/>
             </div>
         )
     }

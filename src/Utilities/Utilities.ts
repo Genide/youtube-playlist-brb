@@ -42,3 +42,27 @@ export async function GetPlaylistObject(playlistId: string, YTApiKey: string, in
 
   return playlist;
 }
+
+export async function ValidateImageLink(imageLink: string): Promise<string> {
+  if (!imageLink) {
+    return 'Missing image link';
+  }
+
+  try {
+    let response = await fetch(imageLink);
+    if (response.status !== 200) {
+      return 'Unable to load image';
+    }
+
+    let blob = await response.blob()
+    let allowedBlobTypes = ['image/png', 'image/jpeg', 'image/gif'];
+    if (!allowedBlobTypes.includes(blob.type)) {
+      console.error(blob);
+      return 'This is not a link for an image';
+    }
+
+    return '';
+  } catch (error) {
+    return 'Unable to load image';
+  }
+}

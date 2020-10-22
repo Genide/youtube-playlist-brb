@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import { GetPlaylistObject, RandomizeOrder } from '../Utilities/Utilities';
+import { GetPlaylistObject, RandomizeOrder, ValidateImageLink } from '../Utilities/Utilities';
 import PlaylistRetriever from '../Controller/PlaylistRetriever';
 import PlaylistPlayer from './PlaylistPlayer';
 
@@ -13,6 +13,7 @@ interface State {
     loadingText: string;
     showYTControls: boolean;
     randomizeOrder: boolean;
+    brbImageLink: string;
 }
 
 export default class BRB extends Component<Props, State> {
@@ -21,7 +22,8 @@ export default class BRB extends Component<Props, State> {
         playlist: [],
         loadingText: '',
         showYTControls: false,
-        randomizeOrder: true
+        randomizeOrder: true,
+        brbImageLink: ''
     }
     private _playlistRetriever: PlaylistRetriever;
 
@@ -35,7 +37,8 @@ export default class BRB extends Component<Props, State> {
         this.state.playlistId = url.searchParams.get('list') ?? '';
         this.state.loadingText = url.searchParams.get('loadingText') ?? '';
         this.state.showYTControls = url.searchParams.get('showYTControls') === '1' ? true : false;
-        this.state.randomizeOrder = url.searchParams.get('randomizeOrder') === '1' ? true : false; 
+        this.state.randomizeOrder = url.searchParams.get('randomizeOrder') === '1' ? true : false;
+        this.state.brbImageLink = url.searchParams.get('brbImage') ?? '';
     }
 
     componentDidMount() {
@@ -52,7 +55,17 @@ export default class BRB extends Component<Props, State> {
         
         let playlist = await GetPlaylistObject(this.state.playlistId, this.props.YoutubeApiKey);
         if (!playlist) {
-            alert(`Invalid youtube playlist ID of ${this.state.playlistId}\nRedirecting to configuration page.`)
+            alert(`Invalid youtube playlist ID of ${this.state.playlistId}\nRedirecting to configuration page.`);
+            this.props.history.push('/config');
+            return;
+        }
+
+        let brbImageErrorMessage = '';
+        if (this.state.brbImageLink) {
+            brbImageErrorMessage = await ValidateImageLink(this.state.brbImageLink);
+        }
+        if (brbImageErrorMessage) {
+            alert(`Invalid BRB image of ${this.state.brbImageLink}\n${brbImageErrorMessage}\nRedirecting to configuration page.`);
             this.props.history.push('/config');
             return;
         }
@@ -72,7 +85,8 @@ export default class BRB extends Component<Props, State> {
                 ? <PlaylistPlayer
                     playlist={this.state.playlist}
                     loadingText={this.state.loadingText}
-                    showYTControls={this.state.showYTControls} />
+                    showYTControls={this.state.showYTControls}
+                    brbImageLink={this.state.brbImageLink} />
                 : ''
             
         )

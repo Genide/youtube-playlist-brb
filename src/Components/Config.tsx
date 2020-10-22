@@ -3,7 +3,7 @@ import { Formik } from 'formik';
 import { IPlaylist } from '../Interfaces/YTInterfaces'
 import { Button, Checkbox, FormControlLabel, TextField, Box, useTheme, Paper } from '@material-ui/core';
 import YoutubePlaylistSnippet from './YoutubePlaylistSnippet';
-import { GetPlaylistObject } from '../Utilities/Utilities';
+import { GetPlaylistObject, ValidateImageLink } from '../Utilities/Utilities';
 import { useHistory } from 'react-router-dom';
 import CreateIcon from '@material-ui/icons/Create';
 import JumpToBRBDialog from './JumpToBRBDialog';
@@ -68,33 +68,20 @@ export default function Config({YoutubeApiKey}: Props) {
             return '';
         }
 
-        try {
-            let response = await fetch(imageLink);
-            if (response.status !== 200) {
-                setImageLink('');
-                return 'Unable to load image';
-            }
-
-            let blob = await response.blob()
-            let allowedBlobTypes = ['image/png', 'image/jpeg', 'image/gif'];
-            if (!allowedBlobTypes.includes(blob.type))  {
-                console.error(blob);
-                setImageLink('');
-                return 'This is not a link for an image';
-            }
-
-            setImageLink(imageLink);
-            return '';
-        } catch (error) {
+        let errorMessage = await ValidateImageLink(imageLink);
+        if (errorMessage) {
             setImageLink('');
-            return 'Unable to load image';
+            return errorMessage;
         }
+
+        setImageLink(imageLink);
+        return '';
     }
 
     return (
         <Box style={{...center}} >
             <Box style={{width: '30%'}}>
-                <img src={imageLink} alt='' style={{maxWidth: '100%'}} />
+                <img src={imageLink} alt='' style={{maxWidth: '100%', maxHeight: '100%', margin: 'auto', width:'auto', height:'auto'}} />
                 <JumpToBRBDialog 
                     style={{width: '30%'}} 
                     onJumpToBrb={jumpToBrb}

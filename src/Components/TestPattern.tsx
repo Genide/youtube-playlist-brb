@@ -4,6 +4,7 @@ import TestPatternImage from './SMPTE_Color_Bars.svg'
 interface Props {
     hidden: boolean,
     text: string,
+    brbImageLink: string
 }
 interface State {
     
@@ -12,7 +13,8 @@ interface State {
 export default class TestPattern extends Component<Props, State> {
     static defaultProps = {
         hidden: false,
-        text: ""
+        text: '',
+        brbImageLink: ''
     }
     
     state = {}
@@ -34,9 +36,14 @@ export default class TestPattern extends Component<Props, State> {
             textAlign: 'center'
         }
 
+        let brbImageLink = (this.props.brbImageLink) ? this.props.brbImageLink : TestPatternImage;
+        let imageStyle: React.CSSProperties = (this.props.brbImageLink) 
+                            ? {maxWidth: '100%', maxHeight: '100%', margin: 'auto', width:'auto', height:'auto'}
+                            : {width: '100%'}
+
         return (
             <div style={{...containerStyle, display: this.props.hidden ? "none": "flex"}}>
-                <img src={TestPatternImage} alt="" style={{width: '100%'}} />
+                <img src={brbImageLink} alt="" style={imageStyle} />
                 <div style={overlayTextStyle}>
                     {this.props.text}
                 </div>
