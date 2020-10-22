@@ -20,6 +20,7 @@ export default function Config({YoutubeApiKey}: Props) {
     const [currentPlaylist, setcurrentPlaylist] = useState({} as IPlaylist);
     const [isDialogOpen, setisDialogOpen] = useState(false);
     const [queryString, setqueryString] = useState('');
+    const [imageLink, setImageLink] = useState('');
     const theme = useTheme();
     const history = useHistory();
 
@@ -45,35 +46,77 @@ export default function Config({YoutubeApiKey}: Props) {
         color: theme.palette.text.primary
     }
 
+    let validateYTPlaylistID = async (playlistID: string): Promise<string> => {
+        if (!playlistID) {
+            setcurrentPlaylist({} as IPlaylist);
+            return 'Required';
+        } else {
+            let temp = await getYTList(playlistID, YoutubeApiKey);
+            if (!temp) {
+                setcurrentPlaylist({} as IPlaylist);
+                return 'Invalid playlist ID';
+            }
+
+            setcurrentPlaylist(temp);
+        }
+        return '';
+    }
+
+    let validateImageLink = async (imageLink: string): Promise<string> => {
+        if (!imageLink) {
+            setImageLink('');
+            return '';
+        }
+
+        try {
+            let response = await fetch(imageLink);
+            if (response.status !== 200) {
+                setImageLink('');
+                return 'Unable to load image';
+            }
+
+            let blob = await response.blob()
+            let allowedBlobTypes = ['image/png', 'image/jpeg', 'image/gif'];
+            if (!allowedBlobTypes.includes(blob.type))  {
+                console.error(blob);
+                setImageLink('');
+                return 'This is not a link for an image';
+            }
+
+            setImageLink(imageLink);
+            return '';
+        } catch (error) {
+            setImageLink('');
+            return 'Unable to load image';
+        }
+    }
+
     return (
         <Box style={{...center}} >
-            <JumpToBRBDialog 
-                style={{width: '30%'}} 
-                onJumpToBrb={jumpToBrb}
-                open={isDialogOpen}
-                onClose={() => setisDialogOpen(false)}
-            />
+            <Box style={{width: '30%'}}>
+                <img src={imageLink} alt='' style={{maxWidth: '100%'}} />
+                <JumpToBRBDialog 
+                    style={{width: '30%'}} 
+                    onJumpToBrb={jumpToBrb}
+                    open={isDialogOpen}
+                    onClose={() => setisDialogOpen(false)}
+                />
+            </Box>
             <Formik
                 initialValues={{
                     youtubeListId: '',
                     loadingText: '',
                     showYTControls: false,
-                    randomizeOrder: false
+                    randomizeOrder: false,
+                    imageLink: ''
                 }}
                 validate={async values => {
                     const errors: any = {};
-                    if (!values.youtubeListId) {
-                        errors.youtubeListId = 'Required';
-                        setcurrentPlaylist({} as IPlaylist);
-                    } else {
-                        let temp = await getYTList(values.youtubeListId, YoutubeApiKey);
-                        if (!temp) {
-                            errors.youtubeListId = 'Invalid playlist ID'
-                            setcurrentPlaylist({} as IPlaylist);
-                        } else {
-                            setcurrentPlaylist(temp);
-                        }
-                    }
+                    let ytError =  await validateYTPlaylistID(values.youtubeListId);
+                    if (ytError) errors.youtubeListId = ytError;
+
+                    let imageLinkError = await validateImageLink(values.imageLink);
+                    if (imageLinkError) errors.imageLink = imageLinkError;
 
                     return errors;
                 }}
@@ -84,6 +127,7 @@ export default function Config({YoutubeApiKey}: Props) {
                     url.searchParams.append('loadingText', values.loadingText);
                     url.searchParams.append('showYTControls', values.showYTControls ? '1' : '0');
                     url.searchParams.append('randomizeOrder', values.randomizeOrder ? '1' : '0');
+                    url.searchParams.append('brbImage', values.imageLink);
 
                     setqueryString(url.search);
                     navigator.clipboard.writeText(url.href);
@@ -120,7 +164,20 @@ export default function Config({YoutubeApiKey}: Props) {
                                 onBlur={formik.handleBlur}
                                 name='loadingText'
                                 error={formik.errors.loadingText ? true : false}
-                                helperText={formik.errors.loadingText ?? 'Displayed while loading the next video in the playlist'}
+                                helperText={formik.errors.loadingText ?? 'The text to display while loading the next video in the playlist'}
+                                fullWidth
+                                disabled={formik.isSubmitting}
+                                margin='normal'
+                            />
+                            <TextField
+                                variant='outlined'
+                                label='BRB Image Link'
+                                value={formik.values.imageLink}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                name='imageLink'
+                                error={formik.errors.imageLink ? true : false}
+                                helperText={formik.errors.imageLink ?? 'The image to display while loading the next video in the playlist'}
                                 fullWidth
                                 disabled={formik.isSubmitting}
                                 margin='normal'
