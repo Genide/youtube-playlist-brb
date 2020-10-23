@@ -20,7 +20,6 @@ export default function FormikCheckbox(props: FormikCheckboxProps): ReactElement
         <FormControlLabel
             {...props.FormControlLabelProps}
             control={<Checkbox 
-                
                 {...field}
                 {...props.CheckboxProps}
             />}

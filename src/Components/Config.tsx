@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Form, Formik } from 'formik';
 import { IPlaylist } from '../Interfaces/YTInterfaces'
-import { Button, TextField, Box, useTheme, Paper } from '@material-ui/core';
+import { Button, Box, useTheme, Paper } from '@material-ui/core';
 import YoutubePlaylistSnippet from './YoutubePlaylistSnippet';
 import { GetPlaylistObject, ValidateImageLink } from '../Utilities/Utilities';
 import { useHistory } from 'react-router-dom';
@@ -125,24 +125,28 @@ export default function Config({YoutubeApiKey}: Props) {
                             <StyledFormikTextField
                                 name='youtubeListId'
                                 validate={validateYTPlaylistID}
-                                label='Youtube Playlist ID'
-                                helperText={'Enter a youtube playlist ID'}
-                                disabled={formik.isSubmitting}
+                                textFieldProps={{
+                                    label: 'Youtube Playlist ID',
+                                    helperText: 'Enter a youtube playlist ID',
+                                    disabled: formik.isSubmitting
+                                }}
                             />
                             <StyledFormikTextField 
                                 name='loadingText'
-                                as={TextField}
-                                label='Loading Text'
-                                helperText={'The text to display while loading the next video in the playlist'}
-                                disabled={formik.isSubmitting}
+                                textFieldProps={{
+                                    label: 'Loading Text',
+                                    helperText: 'The text to display while loading the next video in the playlist',
+                                    disabled: formik.isSubmitting
+                                }}
                             />
                             <StyledFormikTextField 
                                 name='imageLink'
                                 validate={validateImageLink}
-                                as={TextField}
-                                label='BRB Image Link'
-                                helperText={'The image to display while loading the next video in the playlist'}
-                                disabled={formik.isSubmitting}
+                                textFieldProps={{
+                                    label: 'BRB Image Link',
+                                    helperText: 'The image to display while loading the next video in the playlist',
+                                    disabled: formik.isSubmitting
+                                }}
                             />
                             <FormikCheckbox
                                 name="showYTControls"
@@ -177,14 +181,16 @@ export default function Config({YoutubeApiKey}: Props) {
     )
 }
 
-let StyledFormikTextField = ({variant, fullWidth, margin, ...otherProps}: FormikTextFieldProps) => {
+let StyledFormikTextField = ({textFieldProps, ...otherProps}: FormikTextFieldProps) => {
+    textFieldProps.variant = textFieldProps.variant ?? 'outlined' as any;
+    textFieldProps.fullWidth = textFieldProps.fullWidth ?? true;
+    textFieldProps.margin = textFieldProps.margin ?? 'normal';
+
     return (
         <FormikTextField 
             // https://github.com/mui-org/material-ui/issues/15697
             // I'm doing this funny business here because of a typescript bug
-            variant={variant ?? 'outlined' as any}
-            fullWidth={fullWidth ?? true}
-            margin={margin ?? "normal"}
+            textFieldProps={textFieldProps}
             {...otherProps}
         />
     );
