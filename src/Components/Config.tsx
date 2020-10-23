@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Formik } from 'formik';
+import { Field, Form, Formik } from 'formik';
 import { IPlaylist } from '../Interfaces/YTInterfaces'
 import { Button, Checkbox, FormControlLabel, TextField, Box, useTheme, Paper } from '@material-ui/core';
 import YoutubePlaylistSnippet from './YoutubePlaylistSnippet';
@@ -97,16 +97,6 @@ export default function Config({YoutubeApiKey}: Props) {
                     randomizeOrder: false,
                     imageLink: ''
                 }}
-                validate={async values => {
-                    const errors: any = {};
-                    let ytError =  await validateYTPlaylistID(values.youtubeListId);
-                    if (ytError) errors.youtubeListId = ytError;
-
-                    let imageLinkError = await validateImageLink(values.imageLink);
-                    if (imageLinkError) errors.imageLink = imageLinkError;
-
-                    return errors;
-                }}
                 onSubmit={(values, { setSubmitting }) => {
                     let url = new URL(window.location.origin);
                     url.pathname = `${process.env.PUBLIC_URL}/BRB`
@@ -129,48 +119,41 @@ export default function Config({YoutubeApiKey}: Props) {
                             elevation={3}
                             style={{ padding: '1em', width: '30%', minWidth: '450px', margin: 'auto'}}
                         >
-                        <form onSubmit={formik.handleSubmit} style={{  }}>
-                            <TextField
+                        <Form>
+                            <Field 
+                                name='youtubeListId'
+                                validate={validateYTPlaylistID}
+                                as={TextField}
                                 variant='outlined'
                                 label='Youtube Playlist ID'
-                                value={formik.values.youtubeListId}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                name='youtubeListId'
                                 error={formik.errors.youtubeListId ? true : false}
                                 helperText={formik.errors.youtubeListId ?? 'Enter a youtube playlist ID'}
                                 fullWidth
-                                disabled={formik.isSubmitting}
                                 margin='normal'
                             />
-                            <TextField
+                            <Field 
+                                name='loadingText'
+                                as={TextField}
                                 variant='outlined'
                                 label='Loading Text'
-                                value={formik.values.loadingText}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                name='loadingText'
                                 error={formik.errors.loadingText ? true : false}
                                 helperText={formik.errors.loadingText ?? 'The text to display while loading the next video in the playlist'}
                                 fullWidth
-                                disabled={formik.isSubmitting}
                                 margin='normal'
                             />
-                            <TextField
+                            <Field 
+                                name='imageLink'
+                                validate={validateImageLink}
+                                as={TextField}
                                 variant='outlined'
                                 label='BRB Image Link'
-                                value={formik.values.imageLink}
-                                onChange={formik.handleChange}
-                                onBlur={formik.handleBlur}
-                                name='imageLink'
                                 error={formik.errors.imageLink ? true : false}
                                 helperText={formik.errors.imageLink ?? 'The image to display while loading the next video in the playlist'}
                                 fullWidth
-                                disabled={formik.isSubmitting}
                                 margin='normal'
                             />
                             <FormControlLabel
-                                label="Show Youtube Controls"
+                                label="Show Youtube controls"
                                 style={{ ...checkboxFormStyle }}
                                 control={<Checkbox 
                                     checked={formik.values.showYTControls}
@@ -206,7 +189,7 @@ export default function Config({YoutubeApiKey}: Props) {
                             >
                                 Create Link
                             </Button>
-                        </form>
+                        </Form>
                         </Paper>
                     )
                 }}
