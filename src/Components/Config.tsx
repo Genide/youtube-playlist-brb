@@ -8,7 +8,7 @@ import { useHistory } from 'react-router-dom';
 import CreateIcon from '@material-ui/icons/Create';
 import JumpToBRBDialog from './JumpToBRBDialog';
 import FormikTextField, { FormikTextFieldProps } from './FormikTextField';
-import FormikCheckbox from './FormikCheckbox';
+import FormikCheckbox, { FormikCheckboxProps } from './FormikCheckbox';
 
 interface Props {
     YoutubeApiKey: string,
@@ -41,11 +41,6 @@ export default function Config({YoutubeApiKey}: Props) {
         backgroundColor: theme.palette.background.default,
         paddingLeft: '2em',
         paddingRight: '2em'
-    }
-
-    let checkboxFormStyle: React.CSSProperties = {
-        backgroundColor: theme.palette.background.paper, 
-        color: theme.palette.text.primary
     }
 
     let validateYTPlaylistID = async (playlistID: string): Promise<string> => {
@@ -148,16 +143,16 @@ export default function Config({YoutubeApiKey}: Props) {
                                     disabled: formik.isSubmitting
                                 }}
                             />
-                            <FormikCheckbox
-                                name="showYTControls"
-                                FormControlLabelProps={{label:'Show Youtube controls', style:{...checkboxFormStyle}}}
-                                CheckboxProps={{disabled:formik.isSubmitting, color:'primary'}}
+                            <StyledFormikCheckbox
+                                name='showYTControls'
+                                FormControlLabelProps={{label:'Show Youtube controls'}}
+                                CheckboxProps={{disabled:formik.isSubmitting}}
                             />
                             <br />
-                            <FormikCheckbox
+                            <StyledFormikCheckbox
                                 name='randomizeOrder'
-                                FormControlLabelProps={{label:'Randomize playlist order', style:{...checkboxFormStyle}}}
-                                CheckboxProps={{disabled:formik.isSubmitting, color:'primary'}}
+                                FormControlLabelProps={{label:'Randomize playlist order'}}
+                                CheckboxProps={{disabled:formik.isSubmitting}}
                             />
                             
                             <br />
@@ -192,6 +187,26 @@ let StyledFormikTextField = ({textFieldProps, ...otherProps}: FormikTextFieldPro
             // I'm doing this funny business here because of a typescript bug
             textFieldProps={textFieldProps}
             {...otherProps}
+        />
+    );
+}
+
+
+let StyledFormikCheckbox = (props: FormikCheckboxProps) => {
+    const theme = useTheme();
+
+    let checkboxFormStyle: React.CSSProperties = {
+        backgroundColor: theme.palette.background.paper, 
+        color: theme.palette.text.primary
+    }
+
+    props.FormControlLabelProps.style = {...checkboxFormStyle};
+    if (!props.CheckboxProps) props.CheckboxProps = {};
+    props.CheckboxProps.color = "primary";
+
+    return (
+        <FormikCheckbox
+            {...props}
         />
     );
 }
