@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import { Form, Formik } from 'formik';
 import { IPlaylist } from '../Interfaces/YTInterfaces'
-import { Button, Checkbox, FormControlLabel, TextField, Box, useTheme, Paper } from '@material-ui/core';
+import { Button, TextField, Box, useTheme, Paper } from '@material-ui/core';
 import YoutubePlaylistSnippet from './YoutubePlaylistSnippet';
 import { GetPlaylistObject, ValidateImageLink } from '../Utilities/Utilities';
 import { useHistory } from 'react-router-dom';
 import CreateIcon from '@material-ui/icons/Create';
 import JumpToBRBDialog from './JumpToBRBDialog';
 import FormikTextField, { FormikTextFieldProps } from './FormikTextField';
+import FormikCheckbox from './FormikCheckbox';
 
 interface Props {
     YoutubeApiKey: string,
@@ -143,30 +144,16 @@ export default function Config({YoutubeApiKey}: Props) {
                                 helperText={'The image to display while loading the next video in the playlist'}
                                 disabled={formik.isSubmitting}
                             />
-                            <FormControlLabel
-                                label="Show Youtube controls"
-                                style={{ ...checkboxFormStyle }}
-                                control={<Checkbox 
-                                    checked={formik.values.showYTControls}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    name="showYTControls"
-                                    disabled={formik.isSubmitting}
-                                    color='primary'
-                                />}
+                            <FormikCheckbox
+                                name="showYTControls"
+                                FormControlLabelProps={{label:'Show Youtube controls', style:{...checkboxFormStyle}}}
+                                CheckboxProps={{disabled:formik.isSubmitting, color:'primary'}}
                             />
                             <br />
-                            <FormControlLabel 
-                                label="Randomize playlist order"
-                                style={{ ...checkboxFormStyle }}
-                                control={<Checkbox 
-                                    checked={formik.values.randomizeOrder}
-                                    onChange={formik.handleChange}
-                                    onBlur={formik.handleBlur}
-                                    name="randomizeOrder"
-                                    disabled={formik.isSubmitting}
-                                    color='primary'
-                                />}
+                            <FormikCheckbox
+                                name='randomizeOrder'
+                                FormControlLabelProps={{label:'Randomize playlist order', style:{...checkboxFormStyle}}}
+                                CheckboxProps={{disabled:formik.isSubmitting, color:'primary'}}
                             />
                             
                             <br />
