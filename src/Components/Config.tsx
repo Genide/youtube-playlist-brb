@@ -126,12 +126,14 @@ export default function Config({YoutubeApiKey}: Props) {
                                 validate={validateYTPlaylistID}
                                 label='Youtube Playlist ID'
                                 helperText={'Enter a youtube playlist ID'}
+                                disabled={formik.isSubmitting}
                             />
                             <StyledFormikTextField 
                                 name='loadingText'
                                 as={TextField}
                                 label='Loading Text'
                                 helperText={'The text to display while loading the next video in the playlist'}
+                                disabled={formik.isSubmitting}
                             />
                             <StyledFormikTextField 
                                 name='imageLink'
@@ -139,6 +141,7 @@ export default function Config({YoutubeApiKey}: Props) {
                                 as={TextField}
                                 label='BRB Image Link'
                                 helperText={'The image to display while loading the next video in the playlist'}
+                                disabled={formik.isSubmitting}
                             />
                             <FormControlLabel
                                 label="Show Youtube controls"
@@ -187,7 +190,7 @@ export default function Config({YoutubeApiKey}: Props) {
     )
 }
 
-let StyledFormikTextField = ({variant, fullWidth, margin , ...otherProps}: FormikTextFieldProps) => {
+let StyledFormikTextField = ({variant, fullWidth, margin, ...otherProps}: FormikTextFieldProps) => {
     return (
         <FormikTextField 
             // https://github.com/mui-org/material-ui/issues/15697
