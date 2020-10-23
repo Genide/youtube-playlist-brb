@@ -177,14 +177,14 @@ export default function Config({YoutubeApiKey}: Props) {
 }
 
 let StyledFormikTextField = ({textFieldProps, ...otherProps}: FormikTextFieldProps) => {
+    // https://github.com/mui-org/material-ui/issues/15697
+    // I'm doing this funny business here because of a typescript bug
     textFieldProps.variant = textFieldProps.variant ?? 'outlined' as any;
     textFieldProps.fullWidth = textFieldProps.fullWidth ?? true;
     textFieldProps.margin = textFieldProps.margin ?? 'normal';
 
     return (
         <FormikTextField 
-            // https://github.com/mui-org/material-ui/issues/15697
-            // I'm doing this funny business here because of a typescript bug
             textFieldProps={textFieldProps}
             {...otherProps}
         />
