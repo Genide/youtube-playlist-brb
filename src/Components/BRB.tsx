@@ -46,7 +46,7 @@ export default class BRB extends Component<Props, State> {
         
         let validationObj = await this.validateQueryParams(url);
         if (!validationObj.isValid) {
-            alert(validationObj.errorMessage);
+            alert(validationObj.errorMessage + '\nRedirecting to configuration page.');
             this.props.history.push('/config');
             return;
         }
@@ -121,14 +121,14 @@ export default class BRB extends Component<Props, State> {
         }
 
         if (!playlistId) {
-            returnObject.errorMessage = 'Missing playlist ID. \nRedirecting to configuration page.';
+            returnObject.errorMessage = 'Missing playlist ID.';
             returnObject.isValid = false;
             return returnObject;
         }
         
         let playlist = await GetPlaylistObject(playlistId, this.props.YoutubeApiKey);
         if (!playlist) {
-            returnObject.errorMessage = `Invalid youtube playlist ID of ${playlistId}\nRedirecting to configuration page.`;
+            returnObject.errorMessage = `Invalid youtube playlist ID of ${playlistId}`;
             returnObject.isValid = false;
             return returnObject;
         }
@@ -149,7 +149,7 @@ export default class BRB extends Component<Props, State> {
             returnObject.volume = parseInt(queryParam);
         }
         if (returnObject.volume < 0 || returnObject.volume > 100 || isNaN(returnObject.volume)) {
-            returnObject.errorMessage = `Invalid value for ${objectName} of ${queryParam}. Must be between 0 and 100 inclusive.\nRedirecting to configuration page.`
+            returnObject.errorMessage = `Invalid value for ${objectName} of ${queryParam}. Must be between 0 and 100 inclusive.`
             returnObject.isValid = false;
             returnObject.volume = NaN;
         }
