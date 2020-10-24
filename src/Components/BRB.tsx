@@ -101,7 +101,7 @@ export default class BRB extends Component<Props, State> {
         }
         newState.beepVolume = beepVolumeObj.volume;
 
-        let videoVolumeObj = this.isValidVolume(url.searchParams.get('videoVolume'), 10, 'video volume');
+        let videoVolumeObj = this.isValidVolume(url.searchParams.get('videoVolume'), 100, 'video volume');
         if (!videoVolumeObj.isValid) {
             returnObject.isValid = false;
             returnObject.errorMessage = videoVolumeObj.errorMessage;
