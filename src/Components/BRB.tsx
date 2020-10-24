@@ -41,21 +41,7 @@ export default class BRB extends Component<Props, State> {
         this.state.showYTControls = url.searchParams.get('showYTControls') === '1' ? true : false;
         this.state.randomizeOrder = url.searchParams.get('randomizeOrder') === '1' ? true : false;
         this.state.brbImageLink = url.searchParams.get('brbImage') ?? '';
-
-        let beepVolumeQueryParam = url.searchParams.get('beepVolume');
-        try {
-            let beepVolume = parseInt(beepVolumeQueryParam ?? '10');
-            if (beepVolume < 0 || beepVolume > 100) {
-                alert(`Invalid beep volume of ${beepVolume}. Must be between 0 and 100 inclusive.\nRedirecting to configuration page.`)
-                this.props.history.push('/config');
-                return;
-            }
-            this.state.beepVolume = beepVolume
-        } catch (error) {
-            alert(`Invalid beep volume of ${beepVolumeQueryParam}. Must be between 0 and 100 inclusive.\nRedirecting to configuration page.`)
-            this.props.history.push('/config');
-            return;
-        }
+        // this.state.beepVolume is set in onMount
     }
 
     componentDidMount() {
@@ -86,6 +72,16 @@ export default class BRB extends Component<Props, State> {
             this.props.history.push('/config');
             return;
         }
+
+        let url = new URL(window.location.href);
+        let beepVolumeQueryParam = url.searchParams.get('beepVolume');
+        let beepVolume = parseInt(beepVolumeQueryParam ? beepVolumeQueryParam : '10');
+        if (beepVolume < 0 || beepVolume > 100 || isNaN(beepVolume)) {
+            alert(`Invalid beep volume of ${beepVolumeQueryParam}. Must be between 0 and 100 inclusive.\nRedirecting to configuration page.`)
+            this.props.history.push('/config');
+            return;
+        }
+        this.state.beepVolume = beepVolume;
 
         try {
             let temp = await this._playlistRetriever.GetPlaylistVideoIds(this.state.playlistId);
