@@ -94,7 +94,7 @@ export default function Config({YoutubeApiKey}: Props) {
                     showYTControls: false,
                     randomizeOrder: false,
                     imageLink: '',
-                    volume: 10
+                    beepVolume: 10
                 }}
                 onSubmit={(values, { setSubmitting }) => {
                     let url = new URL(window.location.origin);
@@ -104,7 +104,7 @@ export default function Config({YoutubeApiKey}: Props) {
                     url.searchParams.append('showYTControls', values.showYTControls ? '1' : '0');
                     url.searchParams.append('randomizeOrder', values.randomizeOrder ? '1' : '0');
                     url.searchParams.append('brbImage', values.imageLink);
-                    url.searchParams.append('volume', values.volume.toString());
+                    url.searchParams.append('beepVolume', values.beepVolume.toString());
 
                     setqueryString(url.search);
                     navigator.clipboard.writeText(url.href);
@@ -146,14 +146,19 @@ export default function Config({YoutubeApiKey}: Props) {
                                     disabled: formik.isSubmitting
                                 }}
                             />
+                            <br />
+                            <br />
                             <FormikSlider
-                                name='volume'
+                                label='Beep volume'
+                                name='beepVolume'
                                 SliderProps={{
                                     min: 0,
                                     max: 100,
-                                    valueLabelDisplay: 'auto'
+                                    valueLabelDisplay: 'auto',
+                                    style:{width: '50%'}
                                 }}
                             />
+                            <br />
                             <StyledFormikCheckbox
                                 name='showYTControls'
                                 FormControlLabelProps={{label:'Show Youtube controls'}}

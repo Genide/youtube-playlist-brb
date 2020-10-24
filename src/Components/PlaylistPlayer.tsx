@@ -8,6 +8,7 @@ interface Props {
     loadingText: string;
     showYTControls: boolean;
     brbImageLink: string;
+    beepVolume: number;
 }
 interface State {
     currentVideoId: string;
@@ -20,7 +21,8 @@ export default class PlaylistPlayer extends Component<Props, State> {
         playlist: [],
         loadingText: '',
         showYTControls: false,
-        brbImageLink: ''
+        brbImageLink: '',
+        beepVolume: 10
     }
     state: State = {
         currentVideoId: '',
@@ -32,7 +34,7 @@ export default class PlaylistPlayer extends Component<Props, State> {
 
     constructor(props: Props) {
         super(props);
-        this._beeper = new Beeper(.1);
+        this._beeper = new Beeper(props.beepVolume * .01);
         this._currentVideoIndex = 0;
     }
 

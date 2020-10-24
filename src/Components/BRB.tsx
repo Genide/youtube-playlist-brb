@@ -14,6 +14,7 @@ interface State {
     showYTControls: boolean;
     randomizeOrder: boolean;
     brbImageLink: string;
+    beepVolume: number;
 }
 
 export default class BRB extends Component<Props, State> {
@@ -23,7 +24,8 @@ export default class BRB extends Component<Props, State> {
         loadingText: '',
         showYTControls: false,
         randomizeOrder: true,
-        brbImageLink: ''
+        brbImageLink: '',
+        beepVolume: 10
     }
     private _playlistRetriever: PlaylistRetriever;
 
@@ -39,6 +41,21 @@ export default class BRB extends Component<Props, State> {
         this.state.showYTControls = url.searchParams.get('showYTControls') === '1' ? true : false;
         this.state.randomizeOrder = url.searchParams.get('randomizeOrder') === '1' ? true : false;
         this.state.brbImageLink = url.searchParams.get('brbImage') ?? '';
+
+        let beepVolumeQueryParam = url.searchParams.get('beepVolume');
+        try {
+            let beepVolume = parseInt(beepVolumeQueryParam ?? '10');
+            if (beepVolume < 0 || beepVolume > 100) {
+                alert(`Invalid beep volume of ${beepVolume}. Must be between 0 and 100 inclusive.\nRedirecting to configuration page.`)
+                this.props.history.push('/config');
+                return;
+            }
+            this.state.beepVolume = beepVolume
+        } catch (error) {
+            alert(`Invalid beep volume of ${beepVolumeQueryParam}. Must be between 0 and 100 inclusive.\nRedirecting to configuration page.`)
+            this.props.history.push('/config');
+            return;
+        }
     }
 
     componentDidMount() {
@@ -86,7 +103,9 @@ export default class BRB extends Component<Props, State> {
                     playlist={this.state.playlist}
                     loadingText={this.state.loadingText}
                     showYTControls={this.state.showYTControls}
-                    brbImageLink={this.state.brbImageLink} />
+                    brbImageLink={this.state.brbImageLink} 
+                    beepVolume={this.state.beepVolume}
+                />
                 : ''
             
         )
