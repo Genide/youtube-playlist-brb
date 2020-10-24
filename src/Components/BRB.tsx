@@ -27,7 +27,7 @@ export default class BRB extends Component<Props, State> {
         randomizeOrder: true,
         brbImageLink: '',
         beepVolume: 10,
-        videoVolume: 10,
+        videoVolume: 100,
     }
     private _playlistRetriever: PlaylistRetriever;
 
