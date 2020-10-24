@@ -9,6 +9,7 @@ interface Props {
     showYTControls: boolean;
     brbImageLink: string;
     beepVolume: number;
+    videoVolume: number;
 }
 interface State {
     currentVideoId: string;
@@ -22,7 +23,8 @@ export default class PlaylistPlayer extends Component<Props, State> {
         loadingText: '',
         showYTControls: false,
         brbImageLink: '',
-        beepVolume: 10
+        beepVolume: 10,
+        videoVolume: 100
     }
     state: State = {
         currentVideoId: '',
@@ -81,7 +83,7 @@ export default class PlaylistPlayer extends Component<Props, State> {
                 controls: this.props.showYTControls ? 1 : 0, // Hide the player controls
                 fs: 0, // Hide the fullscreen button
                 rel: 0, // Disable showing related videos after a video is finished playing
-                modestbranding: 1
+                modestbranding: 1,
             }
         }
 
@@ -94,6 +96,7 @@ export default class PlaylistPlayer extends Component<Props, State> {
                         opts={YTPlayerOpts}
                         onPlay={() => this.onPlayerStart()}
                         onEnd={() => this.loadNextPlaylistVideo()}
+                        onReady={(event) => event.target.setVolume(this.props.videoVolume)}
                     />
                 </div>
                 <TestPattern 

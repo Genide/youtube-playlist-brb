@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import { Form, Formik } from 'formik';
 import { IPlaylist } from '../Interfaces/YTInterfaces'
-import { Button, Box, useTheme, Paper } from '@material-ui/core';
+import { Button, Box, useTheme, Paper, Typography, Grid } from '@material-ui/core';
 import YoutubePlaylistSnippet from './YoutubePlaylistSnippet';
 import { GetPlaylistObject, ValidateImageLink } from '../Utilities/Utilities';
 import { useHistory } from 'react-router-dom';
@@ -10,6 +10,9 @@ import JumpToBRBDialog from './JumpToBRBDialog';
 import FormikTextField, { FormikTextFieldProps } from './FormikTextField';
 import FormikCheckbox, { FormikCheckboxProps } from './FormikCheckbox';
 import FormikSlider from './FormikSlider';
+import VolumeDown from '@material-ui/icons/VolumeDown';
+import VolumeUp from '@material-ui/icons/VolumeUp';
+
 
 interface Props {
     YoutubeApiKey: string,
@@ -94,7 +97,8 @@ export default function Config({YoutubeApiKey}: Props) {
                     showYTControls: false,
                     randomizeOrder: false,
                     imageLink: '',
-                    beepVolume: 10
+                    beepVolume: 10,
+                    videoVolume: 100,
                 }}
                 onSubmit={(values, { setSubmitting }) => {
                     let url = new URL(window.location.origin);
@@ -105,6 +109,7 @@ export default function Config({YoutubeApiKey}: Props) {
                     url.searchParams.append('randomizeOrder', values.randomizeOrder ? '1' : '0');
                     url.searchParams.append('brbImage', values.imageLink);
                     url.searchParams.append('beepVolume', values.beepVolume.toString());
+                    url.searchParams.append('videoVolume', values.videoVolume.toString());
 
                     setqueryString(url.search);
                     navigator.clipboard.writeText(url.href);
@@ -148,16 +153,9 @@ export default function Config({YoutubeApiKey}: Props) {
                             />
                             <br />
                             <br />
-                            <FormikSlider
-                                label='Beep volume'
-                                name='beepVolume'
-                                SliderProps={{
-                                    min: 0,
-                                    max: 100,
-                                    valueLabelDisplay: 'auto',
-                                    style:{width: '50%'}
-                                }}
-                            />
+                            <StyledVolumeSlider name='beepVolume' label='Beep volume' />
+                            <br />
+                            <StyledVolumeSlider name='videoVolume' label='Video volume' />
                             <br />
                             <StyledFormikCheckbox
                                 name='showYTControls'
@@ -218,11 +216,38 @@ let StyledFormikCheckbox = (props: FormikCheckboxProps) => {
 
     props.FormControlLabelProps.style = {...checkboxFormStyle};
     if (!props.CheckboxProps) props.CheckboxProps = {};
-    props.CheckboxProps.color = "primary";
+    props.CheckboxProps.color = "secondary";
 
     return (
         <FormikCheckbox
             {...props}
         />
+    );
+}
+
+interface StyledVolumeSliderProps {
+    label?: string,
+    name: string
+}
+let StyledVolumeSlider = (props: StyledVolumeSliderProps) => {
+    return (
+        <Fragment>
+            <Typography gutterBottom>{props.label}</Typography>
+            <Grid container spacing={2} style={{width: '25%', minWidth:'300px'}}>
+                <Grid item><VolumeDown /></Grid>
+                <Grid item xs>
+                    <FormikSlider
+                        name={props.name}
+                        SliderProps={{
+                            min: 0,
+                            max: 100,
+                            valueLabelDisplay: 'auto',
+                            color: 'secondary'
+                        }}
+                    />
+                </Grid>
+                <Grid item><VolumeUp /></Grid>
+            </Grid>
+        </Fragment>
     );
 }
