@@ -9,6 +9,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import JumpToBRBDialog from './JumpToBRBDialog';
 import FormikTextField, { FormikTextFieldProps } from './FormikTextField';
 import FormikCheckbox, { FormikCheckboxProps } from './FormikCheckbox';
+import FormikSlider from './FormikSlider';
 
 interface Props {
     YoutubeApiKey: string,
@@ -92,7 +93,8 @@ export default function Config({YoutubeApiKey}: Props) {
                     loadingText: '',
                     showYTControls: false,
                     randomizeOrder: false,
-                    imageLink: ''
+                    imageLink: '',
+                    volume: 10
                 }}
                 onSubmit={(values, { setSubmitting }) => {
                     let url = new URL(window.location.origin);
@@ -102,6 +104,7 @@ export default function Config({YoutubeApiKey}: Props) {
                     url.searchParams.append('showYTControls', values.showYTControls ? '1' : '0');
                     url.searchParams.append('randomizeOrder', values.randomizeOrder ? '1' : '0');
                     url.searchParams.append('brbImage', values.imageLink);
+                    url.searchParams.append('volume', values.volume.toString());
 
                     setqueryString(url.search);
                     navigator.clipboard.writeText(url.href);
@@ -141,6 +144,14 @@ export default function Config({YoutubeApiKey}: Props) {
                                     label: 'BRB Image Link',
                                     helperText: 'The image to display while loading the next video in the playlist',
                                     disabled: formik.isSubmitting
+                                }}
+                            />
+                            <FormikSlider
+                                name='volume'
+                                SliderProps={{
+                                    min: 0,
+                                    max: 100,
+                                    valueLabelDisplay: 'auto'
                                 }}
                             />
                             <StyledFormikCheckbox
