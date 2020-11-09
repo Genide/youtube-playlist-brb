@@ -1,5 +1,6 @@
 import { IPlaylist, IPlaylistListResponse } from "../Interfaces/YTInterfaces";
 
+/* istanbul ignore next */
 /**
  * Creates a new array and randomizes the order of the elements
  * @param array Input array
