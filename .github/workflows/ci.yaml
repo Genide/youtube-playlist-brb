@@ -25,9 +25,14 @@ jobs:
       env:
         REACT_APP_YT_API_KEY: ${{ secrets.REACT_APP_YT_API_KEY }}
 
-    - run: yarn test
+    - run: yarn test --coverage --watchAll=false
       env:
         CI: true
+    
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
