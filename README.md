@@ -1,4 +1,5 @@
 [![Actions Status](https://github.com/Genide/youtube-playlist-brb/workflows/Node.js%20CI/badge.svg)](https://github.com/Genide/youtube-playlist-brb/actions)
+[![Coverage Status](https://coveralls.io/repos/github/Genide/youtube-playlist-brb/badge.svg?branch=master)](https://coveralls.io/github/Genide/youtube-playlist-brb?branch=master)
 
 # [Try The App Here](https://genide.github.io/youtube-playlist-brb)
 
