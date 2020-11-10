@@ -1,4 +1,4 @@
-import { IPlaylist, IPlaylistListResponse } from "../Interfaces/YTInterfaces";
+import { IPlaylist, IPlayListItemListResponse, IPlaylistListResponse } from "../Interfaces/YTInterfaces";
 
 /* istanbul ignore next */
 /**
@@ -71,4 +71,28 @@ export async function ValidateImageLink(imageLink: string): Promise<string> {
     } catch (error) {
         return 'Unable to load image';
     }
+}
+
+/**
+ * Gets a page of videos from the youtube playlist
+ * @param playlistId The youtube playlist ID
+ * @param YTApiKey The youtube API key
+ * @param pageToken The page token for the next video
+ */
+export async function GetPlaylistVideoPage(playlistId: string, YTApiKey: string, pageToken?: string): Promise<IPlayListItemListResponse> {
+    let url = new URL("https://www.googleapis.com/youtube/v3/playlistItems");
+    url.searchParams.append('part', 'contentDetails');
+    url.searchParams.append('playlistId', playlistId);
+    url.searchParams.append('key', YTApiKey);
+    url.searchParams.append('maxResults', '50');
+    if (pageToken) url.searchParams.append('pageToken', pageToken);
+
+    let response = await fetch(url.href, {
+        headers: {
+            'Accept': 'application/json',
+        }
+    });
+    let playlist: IPlayListItemListResponse = await response.json();
+
+    return playlist;
 }

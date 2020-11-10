@@ -1,6 +1,6 @@
 import { notDeepEqual } from 'assert';
 import { IPlaylistListResponse } from '../Interfaces/YTInterfaces';
-import { GetPlaylistObject, ValidateImageLink } from './Utilities';
+import { GetPlaylistObject, GetPlaylistVideoPage, ValidateImageLink } from './Utilities';
 
 describe('GetPlaylistObject', () => {
     let createFetchMock = () => {
@@ -94,5 +94,29 @@ describe('ValidateImageLink', () => {
         window.fetch = createFetchMock(blobType);
         let errorMessage = await ValidateImageLink('blahblahblah');
         expect(errorMessage).toEqual('');
+    })
+})
+
+describe('GetPlaylistVideoPage', () => {
+    let createFetchMock = () => {
+        let mockResponse = new Response();
+        mockResponse.json = () => Promise.resolve();
+        return jest.fn(() => Promise.resolve(mockResponse));
+    }
+
+    test.each(['', undefined])('No page token', async (tokenVal) => {
+        let fetchMock = createFetchMock()
+        window.fetch = fetchMock;
+
+        let _ = await GetPlaylistVideoPage('abc', '123', tokenVal)
+        expect((fetchMock.mock.calls[0] as any[])[0]).not.toContain('pageToken')
+    })
+
+    test('Includes page token', async () => {
+        let fetchMock = createFetchMock()
+        window.fetch = fetchMock;
+
+        let _ = await GetPlaylistVideoPage('abc', '123', 'YouAndMe')
+        expect((fetchMock.mock.calls[0] as any[])[0]).toContain('pageToken')
     })
 })

@@ -1,4 +1,5 @@
-import { IPlaylistItem, IPlayListItemListResponse } from "../Interfaces/YTInterfaces";
+import { IPlaylistItem } from "../Interfaces/YTInterfaces";
+import { GetPlaylistVideoPage } from "../Utilities/Utilities";
 
 
 export default class YTPlaylistRetriever {
@@ -20,7 +21,7 @@ export default class YTPlaylistRetriever {
         let token = '';
 
         do {
-            let temp = await this._getPlaylistVideoPage(playlistId, token);
+            let temp = await GetPlaylistVideoPage(playlistId, this._apiKey, token);
             if (temp.error) {
                 throw new Error(temp.error.message);
             }
@@ -39,28 +40,5 @@ export default class YTPlaylistRetriever {
         let list = await this.GetPlaylistVideos(playlistId);
         return list.map(video => video.contentDetails?.videoId ?? "")
             .filter(id => id !== '');
-    }
-
-    /**
-     * Gets a page of videos from the youtube playlist
-     * @param playlistId The youtube playlist ID
-     * @param pageToken The page token for the next video
-     */
-    private async _getPlaylistVideoPage(playlistId: string, pageToken?: string): Promise<IPlayListItemListResponse> {
-        let url = new URL("https://www.googleapis.com/youtube/v3/playlistItems");
-        url.searchParams.append('part', 'contentDetails');
-        url.searchParams.append('playlistId', playlistId);
-        url.searchParams.append('key', this._apiKey);
-        url.searchParams.append('maxResults', '50');
-        if (pageToken) url.searchParams.append('pageToken', pageToken);
-        
-        let response = await fetch(url.href, {
-            headers: {
-                'Accept': 'application/json',
-            }
-        });
-        let playlist: IPlayListItemListResponse = await response.json();
-
-        return playlist;
     }
 }
